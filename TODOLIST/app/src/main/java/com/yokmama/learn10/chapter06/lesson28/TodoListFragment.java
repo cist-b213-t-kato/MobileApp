@@ -106,7 +106,7 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
             //アイテムを削除
             mTodoList.remove(info.position);
             mAdapter.notifyDataSetChanged();
-            return true;
+//            return true;
         }
         return super.onContextItemSelected(item);
     }

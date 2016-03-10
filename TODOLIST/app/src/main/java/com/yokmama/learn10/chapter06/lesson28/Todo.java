@@ -1,5 +1,8 @@
 package com.yokmama.learn10.chapter06.lesson28;
 
+import android.app.LauncherActivity;
+import android.content.AsyncTaskLoader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,8 @@ public class Todo {
      * テスト表示用にダミーのリストアイテムを作成.
      */
     public static List<Todo> addDummyItem() {
+
+
         List<Todo> items = new ArrayList<>();
         items.add(new Todo(Todo.ColorLabel.INDIGO, "猫に小判", System.currentTimeMillis() + 1));
         items.add(new Todo(Todo.ColorLabel.PINK, "猫の手も借りたい", System.currentTimeMillis() + 2));

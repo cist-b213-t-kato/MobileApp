@@ -1,10 +1,16 @@
 package com.yokmama.learn10.chapter06.lesson28;
 
+import android.content.AsyncTaskLoader;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +26,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //ダミーデータ作成
-        mTodoList = Todo.addDummyItem();
+        mTodoList = new ArrayList<>();
+        AssetManager am = getAssets();
+        try {
+            BufferedReader r = new BufferedReader(new InputStreamReader(am.open("names.txt"), "UTF-8"));
+            String line;
+            while((line = r.readLine()) != null){
+                Todo item = new Todo(Todo.ColorLabel.INDIGO, line, System.currentTimeMillis()+mTodoList.size());
+                item.setValue(line);
+                mTodoList.add(item);
+            }
+            r.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         //TODOリスト一覧を表示
         showTodoList();
@@ -29,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout container2 = (FrameLayout) findViewById(R.id.container2);
         if (container2 != null) {
             mIsTablet = true;
-            showTodoForm(mTodoList.get(0));
+            showTodoForm(this.mTodoList.get(0));
         }
     }
 
