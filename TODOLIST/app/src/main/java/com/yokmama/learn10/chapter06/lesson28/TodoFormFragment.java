@@ -32,7 +32,7 @@ public class TodoFormFragment extends Fragment implements View.OnClickListener {
 
     public static final String ARGS_CREATEDTIME = "key-createdtime";
 
-    private int mColorLabel = Todo.ColorLabel.NONE;
+    private int mColorLabel = TodoDefinition.ColorLabel.NONE;
 
     private long mCreatedTime = 0;
 
@@ -99,7 +99,7 @@ public class TodoFormFragment extends Fragment implements View.OnClickListener {
         Bundle args = getArguments();
         if (args != null) {
             //カラーラベルをセット
-            mColorLabel = args.getInt(ARGS_COLORLABEL, Todo.ColorLabel.NONE);
+            mColorLabel = args.getInt(ARGS_COLORLABEL, TodoDefinition.ColorLabel.NONE);
             mEtInput.setTextColor(getColorResource(mColorLabel));
 
             //値をセット
@@ -145,7 +145,10 @@ public class TodoFormFragment extends Fragment implements View.OnClickListener {
                     resultData.putExtra(ARGS_CREATEDTIME, mCreatedTime);
                 }
 
+//                System.out.println("--onOptionItem--");
+
                 //Broadcastを送信
+                //明示的インテントによる実行？
                 resultData.setAction(TodoListFragment.ACTION_CREATE_TODO);
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(resultData);
 
@@ -176,15 +179,15 @@ public class TodoFormFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int viewId = v.getId();
         if (viewId == R.id.color_none) {
-            mColorLabel = Todo.ColorLabel.NONE;
+            mColorLabel = TodoDefinition.ColorLabel.NONE;
         } else if (viewId == R.id.color_amber) {
-            mColorLabel = Todo.ColorLabel.AMBER;
+            mColorLabel = TodoDefinition.ColorLabel.AMBER;
         } else if (viewId == R.id.color_pink) {
-            mColorLabel = Todo.ColorLabel.PINK;
+            mColorLabel = TodoDefinition.ColorLabel.PINK;
         } else if (viewId == R.id.color_indigo) {
-            mColorLabel = Todo.ColorLabel.INDIGO;
+            mColorLabel = TodoDefinition.ColorLabel.INDIGO;
         } else if (viewId == R.id.color_green) {
-            mColorLabel = Todo.ColorLabel.GREEN;
+            mColorLabel = TodoDefinition.ColorLabel.GREEN;
         }
         mEtInput.setTextColor(getColorResource(mColorLabel));
     }
@@ -195,16 +198,16 @@ public class TodoFormFragment extends Fragment implements View.OnClickListener {
      * @param color : カラー
      */
     private int getColorResource(int color) {
-        int resId = Todo.ColorLabel.NONE;
-        if (color == Todo.ColorLabel.NONE) {
+        int resId = TodoDefinition.ColorLabel.NONE;
+        if (color == TodoDefinition.ColorLabel.NONE) {
             resId = getResources().getColor(R.color.material_grey_500);
-        } else if (color == Todo.ColorLabel.AMBER) {
+        } else if (color == TodoDefinition.ColorLabel.AMBER) {
             resId = getResources().getColor(R.color.material_amber_500);
-        } else if (color == Todo.ColorLabel.PINK) {
+        } else if (color == TodoDefinition.ColorLabel.PINK) {
             resId = getResources().getColor(R.color.material_pink_500);
-        } else if (color == Todo.ColorLabel.INDIGO) {
+        } else if (color == TodoDefinition.ColorLabel.INDIGO) {
             resId = getResources().getColor(R.color.material_indigo_500);
-        } else if (color == Todo.ColorLabel.GREEN) {
+        } else if (color == TodoDefinition.ColorLabel.GREEN) {
             resId = getResources().getColor(R.color.material_green_500);
         }
         return resId;

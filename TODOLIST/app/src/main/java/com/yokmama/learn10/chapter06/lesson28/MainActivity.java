@@ -2,16 +2,25 @@ package com.yokmama.learn10.chapter06.lesson28;
 
 import android.content.AsyncTaskLoader;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import greendao.DaoMaster;
+import greendao.DaoSession;
+
+import greendao.Todo;
+import greendao.TodoDao;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,29 +29,29 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mIsTablet = false;
 
+    private DaoSession daoSession;
+
+    public void setupDatebase(){
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "example-db", null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+
+    public DaoSession getDaoSession(){
+        return daoSession;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setupDatebase();
+
         setContentView(R.layout.activity_main);
 
         //ダミーデータ作成
-        mTodoList = new ArrayList<>();
-        AssetManager am = getAssets();
-        try {
-            BufferedReader r = new BufferedReader(new InputStreamReader(am.open("names.txt"), "UTF-8"));
-            String line;
-            while((line = r.readLine()) != null){
-                Todo item = new Todo(Todo.ColorLabel.INDIGO, line, System.currentTimeMillis()+mTodoList.size());
-                item.setValue(line);
-                mTodoList.add(item);
-            }
-            r.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
+        mTodoList = new ArrayList<>();//TodoDefinition.addDummyItem();//getDaoSession().getTodoDao().loadAll();
 
         //TODOリスト一覧を表示
         showTodoList();

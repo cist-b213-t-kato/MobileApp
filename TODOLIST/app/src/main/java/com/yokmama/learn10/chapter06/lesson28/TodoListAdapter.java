@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import greendao.Todo;
+import greendao.TodoDao;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -76,16 +79,16 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
     private int getColorLabelResource(int color) {
         int resId = R.drawable.bg_colorlabel_grey;
         switch (color) {
-            case Todo.ColorLabel.PINK:
+            case TodoDefinition.ColorLabel.PINK:
                 resId = R.drawable.bg_colorlabel_pink;
                 break;
-            case Todo.ColorLabel.INDIGO:
+            case TodoDefinition.ColorLabel.INDIGO:
                 resId = R.drawable.bg_colorlabel_indigo;
                 break;
-            case Todo.ColorLabel.GREEN:
+            case TodoDefinition.ColorLabel.GREEN:
                 resId = R.drawable.bg_colorlabel_green;
                 break;
-            case Todo.ColorLabel.AMBER:
+            case TodoDefinition.ColorLabel.AMBER:
                 resId = R.drawable.bg_colorlabel_amber;
                 break;
         }

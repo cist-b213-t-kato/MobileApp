@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import greendao.Todo;
+import greendao.TodoDao;
+
 import java.util.List;
 
 
@@ -105,8 +108,13 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         if (itemId == MENU_ID_DELETE) {
             //アイテムを削除
             mTodoList.remove(info.position);
+//            TodoDao dao = ((MainActivity) getActivity()).getDaoSession().getTodoDao();
+//            dao.deleteByKey((long) info.position+1);
+            //TODOリストを更新
+//            mTodoList = dao.loadAll();
+//            mAdapter.clear();
+//            mAdapter.addAll(mTodoList);
             mAdapter.notifyDataSetChanged();
-//            return true;
         }
         return super.onContextItemSelected(item);
     }
@@ -118,30 +126,55 @@ public class TodoListFragment extends Fragment implements AdapterView.OnItemClic
         @Override
         public void onReceive(Context context, Intent intent) {
             //Todoデータを作成
-            int color = intent.getIntExtra(TodoFormFragment.ARGS_COLORLABEL, Todo.ColorLabel.NONE);
+            int color = intent.getIntExtra(TodoFormFragment.ARGS_COLORLABEL, TodoDefinition.ColorLabel.NONE);
             String value = intent.getStringExtra(TodoFormFragment.ARGS_VALUE);
             long createdTime = intent.getLongExtra(TodoFormFragment.ARGS_CREATEDTIME, 0);
-            Todo newItem = new Todo(color, value, createdTime);
+            Todo newItem = new Todo();
+            newItem.setColorLabel(color);
+            newItem.setValue(value);
+            newItem.setCreatedTime(createdTime);
 
             //作成時間を既に存在するデータか確認
             int updateIndex = -1;
             for (int i = 0; i < mAdapter.getCount(); i++) {
                 Todo item = mAdapter.getItem(i);
                 if (item.getCreatedTime() == newItem.getCreatedTime()) {
+                    System.out.println(true);
                     updateIndex = i;
+                }else{
+                    System.out.println(false);
                 }
             }
+            TodoDao dao = ((MainActivity) getActivity()).getDaoSession().getTodoDao();
             if (updateIndex == -1) {
                 //既存データがなければ新規Todoとして追加
                 mTodoList.add(newItem);
+
+//                dao.insertOrReplace(newItem);
+//                //TODOリストを更新
+//                mTodoList = dao.loadAll();
+//                mAdapter.clear();
+//                mAdapter.addAll(mTodoList);
+                mAdapter.notifyDataSetChanged();
             } else {
                 //既存データがあれば上書き
                 mTodoList.remove(updateIndex);
                 mTodoList.add(updateIndex, newItem);
-            }
 
-            //TODOリストを更新
-            mAdapter.notifyDataSetChanged();
+//                dao.deleteByKey((long)updateIndex+1);
+//                dao.insertOrReplace(newItem);
+//                //TODOリストを更新
+//                mTodoList = dao.loadAll();
+//                mAdapter.clear();
+//                mAdapter.addAll(mTodoList);
+                mAdapter.notifyDataSetChanged();
+            }
+            System.out.println("--");
+            System.out.println(mAdapter.getCount());
+
+
+
+
 
         }
     };

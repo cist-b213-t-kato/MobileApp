@@ -6,10 +6,12 @@ import android.content.AsyncTaskLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import greendao.Todo;
+
 /**
  * Created by m_iwasaki on 15/03/12.
  */
-public class Todo {
+public class TodoDefinition {
 
     private int colorLabel;
 
@@ -26,7 +28,7 @@ public class Todo {
         public static final int AMBER = 5;
     }
 
-    public Todo(int colorLabel, String value, long createdTime) {
+    public TodoDefinition(int colorLabel, String value, long createdTime) {
         this.colorLabel = colorLabel;
         this.value = value;
         this.createdTime = createdTime;
@@ -63,12 +65,12 @@ public class Todo {
 
 
         List<Todo> items = new ArrayList<>();
-        items.add(new Todo(Todo.ColorLabel.INDIGO, "猫に小判", System.currentTimeMillis() + 1));
-        items.add(new Todo(Todo.ColorLabel.PINK, "猫の手も借りたい", System.currentTimeMillis() + 2));
-        items.add(new Todo(Todo.ColorLabel.GREEN, "窮鼠猫を噛む", System.currentTimeMillis() + 3));
-        items.add(new Todo(Todo.ColorLabel.AMBER,
+        items.add(new Todo(1l, TodoDefinition.ColorLabel.INDIGO, "猫に小判", System.currentTimeMillis() + 1));
+        items.add(new Todo(2l, TodoDefinition.ColorLabel.PINK, "猫の手も借りたい", System.currentTimeMillis() + 2));
+        items.add(new Todo(3l, TodoDefinition.ColorLabel.GREEN, "窮鼠猫を噛む", System.currentTimeMillis() + 3));
+        items.add(new Todo(4l, TodoDefinition.ColorLabel.AMBER,
                 "猫は三年飼っても三日で恩を忘れる", System.currentTimeMillis() + 4));
-        items.add(new Todo(Todo.ColorLabel.NONE, "猫も杓子も", System.currentTimeMillis() + 5));
+        items.add(new Todo(5l, TodoDefinition.ColorLabel.NONE, "猫も杓子も", System.currentTimeMillis() + 5));
         return items;
     }
 }
